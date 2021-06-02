@@ -10,10 +10,13 @@ namespace Service.Services
     public class TimeService : ITimeService
     {
         private IRepository<TimeEntity> _repository;
+        private ITimeRepository _timeRepository;
 
-        public TimeService(IRepository<TimeEntity> repository)
+        public TimeService(IRepository<TimeEntity> repository, ITimeRepository timeRepository)
         {
             _repository = repository;
+            _timeRepository = timeRepository;
+
         }
 
         public async Task<bool> Delete(Guid id)
@@ -33,7 +36,15 @@ namespace Service.Services
 
         public async Task<TimeEntity> Post(TimeEntity Time)
         {
-            return await _repository.InsertAsync(Time);
+            var resultByName = await _timeRepository.SelectByName(Time.Nome);
+            if (resultByName == null)
+            {
+                return await _repository.InsertAsync(Time);
+            }
+            else
+            {
+                throw new Exception("nomes duplicados");
+            }
         }
 
         public async Task<TimeEntity> Put(TimeEntity Time)

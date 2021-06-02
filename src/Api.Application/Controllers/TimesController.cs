@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using application.Models;
+using Domain.Entities;
 using Domain.Interfaces.Services.Time;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -58,7 +59,7 @@ namespace application.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] TimeEntity time)
+        public async Task<ActionResult> Post([FromBody] CreateTimeModel time)
         {
             if (!ModelState.IsValid)
             {
@@ -66,7 +67,7 @@ namespace application.Controllers
             }
             try
             {
-                var result = await _service.Post(time);
+                var result = await _service.Post(time.ToEntity());
                 if (result != null)
                 {
                     return Created(new Uri(Url.Link("GetWithId", new { id = result.Id })), result); 
@@ -83,8 +84,8 @@ namespace application.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult> Put ([FromBody] TimeEntity time)
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult> Put ([FromRoute] Guid id,[FromBody] CreateTimeModel time)
         {
             if (!ModelState.IsValid)
             {
@@ -93,7 +94,10 @@ namespace application.Controllers
 
             try
             {
-                var result = await _service.Put(time);
+                var entidade = time.ToEntity();
+                entidade.Id = id;
+                var result = await _service.Put(entidade);
+            
                 if (result != null)
                 {
                     return Ok(result);

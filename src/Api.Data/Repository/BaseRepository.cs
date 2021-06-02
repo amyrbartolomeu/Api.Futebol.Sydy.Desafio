@@ -48,7 +48,6 @@ namespace Data.Repository
 				item.CreatAt = DateTime.UtcNow;
 				_dataset.Add(item);
 
-				//erro de iniciante(ver video)
 				await _context.SaveChangesAsync();
 			}
 			catch (Exception ex)
@@ -81,7 +80,7 @@ namespace Data.Repository
 		{
             try
             {
-				return await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
+				return await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));	
             }
             catch (Exception ex) 
             {
