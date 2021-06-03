@@ -3,6 +3,7 @@ using Domain.Interfaces;
 using Domain.Interfaces.Services.Time;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Service.Services
@@ -23,15 +24,19 @@ namespace Service.Services
         {
             return await _repository.DeleteAsync(id);
         }
+        public async Task<IEnumerable<TimeEntity>> GetAll()
+        {
+            return await _timeRepository.SelectAllAsync();
+        }
 
         public async Task<TimeEntity> Get(Guid id)
         {
             return await _repository.SelectAsync(id);
         }
 
-        public async Task<IEnumerable<TimeEntity>> GetAll()
+        public async Task<IEnumerable<TimeEntity>> GetPaginado(int page, int pageSize)
         {
-            return await _repository.SelectAsync();
+            return await _timeRepository.SelectAsync(page, pageSize);
         }
 
         public async Task<TimeEntity> Post(TimeEntity Time)

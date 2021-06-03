@@ -1,8 +1,8 @@
-﻿    using application.Models;
-using Domain.Entities;
+﻿using application.Models;
 using Domain.Interfaces.Services.Time;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -17,8 +17,10 @@ namespace application.Controllers
         {
             _service = service;
         }
+
+        
         [HttpGet]
-        public async Task<ActionResult> GetAll()
+        public async Task<ActionResult> GetAll([FromQuery]int page = 1, [FromQuery]int pageSize = 10)
         {
             if (!ModelState.IsValid)
             {
@@ -27,7 +29,7 @@ namespace application.Controllers
 
             try
             {
-                return Ok(await _service.GetAll());
+                return Ok(await _service.GetPaginado(page,pageSize));
             }
             catch (ArgumentException e)
             {

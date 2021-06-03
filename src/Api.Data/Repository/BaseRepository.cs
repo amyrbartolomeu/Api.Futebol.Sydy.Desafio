@@ -4,11 +4,12 @@ using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Data.Repository
 {
-	public class BaseRepository<T> : IRepository<T> where T : BaseEntity
+    public class BaseRepository<T> : IRepository<T> where T : BaseEntity
 	{
 		protected readonly MyContext _context;
 		private DbSet<T> _dataset;
@@ -64,16 +65,7 @@ namespace Data.Repository
 
 		public async Task<IEnumerable<T>> SelectAsync()
 		{
-
-            try
-            {
-				return await _dataset.ToListAsync();
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+			return await _dataset.OrderBy(x=> x.Id).Skip(0 * 10).Take(10).ToListAsync();
 		}
 
 		public async Task<T> SelectAsync(Guid id)
