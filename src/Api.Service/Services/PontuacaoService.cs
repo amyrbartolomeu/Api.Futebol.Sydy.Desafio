@@ -1,6 +1,9 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Domain.Interfaces.Services.Campeonato;
+using Domain.Interfaces.Services.Partida;
 using Domain.Interfaces.Services.Pontuacao;
+using Domain.Interfaces.Services.Time;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,11 +12,17 @@ namespace Service.Services
 {
     public class PontuacaoService : IPontuacaoService
     {
-        private IRepository<PontuacaoEntity> _repository;
+        private readonly IRepository<PontuacaoEntity> _repository;
+        private readonly ITimeService _timeService;
+        private readonly IPartidaService _partidaService;
+        private readonly ICampeonatoService _campeonatoService;
 
-        public PontuacaoService(IRepository<PontuacaoEntity> repository)
+        public PontuacaoService(IRepository<PontuacaoEntity> repository, ITimeService timeService, IPartidaService partidaService, ICampeonatoService campeonatoService)
         {
             _repository = repository;
+            _timeService = timeService;
+            _campeonatoService = campeonatoService;
+            _partidaService = partidaService;
         }
 
         public async Task<bool> Delete(Guid id)
@@ -22,9 +31,15 @@ namespace Service.Services
         }
 
         //implementar a pontuação das partidas do campeonato
-        public List<PontuacaoEntity> FinalPontuacaoCampeonato(List<PartidaEntity> PartidasJogadas, CampeonatoEntity CampeonatoJogado, List<TimeEntity> Times)
+        public List<PontuacaoEntity> FinalPontuacaoCampeonato(Guid CampeonatoID)
         {
-            throw new NotImplementedException();
+            var times = _timeService.GetAll();
+            var partidas = _partidaService.GetAll();
+            var campeonato = _campeonatoService.Get(CampeonatoID);
+
+
+
+            return null;
         }
 
         public async Task<PontuacaoEntity> Get(Guid id)

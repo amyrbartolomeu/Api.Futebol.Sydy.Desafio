@@ -17,8 +17,7 @@ namespace application.Controllers
             _serviceCampeonato = serviceCampeonato;
         }
 
-        //arrumar
-        [HttpPost]
+        [HttpGet]
         public async Task<ActionResult> Campeonato()
         {
             if (!ModelState.IsValid)
@@ -29,8 +28,6 @@ namespace application.Controllers
             {
                 var result = await _serviceCampeonato.CriaCampeonato();
 
-
-    
                 return Ok(result);
             }
             catch (ArgumentException e)

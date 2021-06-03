@@ -24,9 +24,8 @@ namespace Service.Services
         // implementar criação das partidas (Round-Robin)
         public async Task<List<PartidaEntity>> CriaPartidas()
         {
-            List<TimeEntity> todosTimes = new List<TimeEntity>();
-            List<PartidaEntity> partidas = new List<PartidaEntity>(); 
-            todosTimes = (List<TimeEntity>)await _timeService.GetAll();
+            List<PartidaEntity> partidas = new List<PartidaEntity>();
+            var todosTimes = (await _timeService.GetAll()).ToList();
 
 
             for (int i = 0; i < todosTimes.Count; i++)
@@ -35,10 +34,12 @@ namespace Service.Services
                 {
                     var partida = new PartidaEntity();
                     partida.TimeUm = todosTimes[i];
-                    partida.TimeDois = todosTimes[j];
+                    partida.TimeDois = todosTimes[j]; 
+                    
                     Random rnd = new Random();
                     partida.GolsTimeUm = rnd.Next(1, 5);
                     partida.GolsTimeDois = rnd.Next(1, 5);
+
                     partidas.Add(partida);
                 }
 

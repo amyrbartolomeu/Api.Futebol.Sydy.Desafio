@@ -7,6 +7,10 @@ namespace Domain.Entities
     {
         public List<PartidaEntity> Partidas { get; set; }
 
-    
+        public string Campeao { get; set; }
+        public string ViceCampeao { get; set; }
+
+        public string TerceiroLugar { get; set; }
+
     }
 }

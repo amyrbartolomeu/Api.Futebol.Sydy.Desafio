@@ -20,7 +20,6 @@ namespace application.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            //o que está vindo é valido ? ex: trabalhando com Guid e envia uma string q n é do tipo guid retorna bad request(400)
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
