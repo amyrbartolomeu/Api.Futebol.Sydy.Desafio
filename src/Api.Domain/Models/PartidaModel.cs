@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-    public class PartidaEntity : BaseEntity 
+    public class PartidaModel
     {
         public TimeEntity TimeUm { get; set; }
         public TimeEntity TimeDois { get; set; }

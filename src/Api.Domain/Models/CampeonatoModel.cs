@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Domain.Entities
 {
-    public class CampeonatoEntity : BaseEntity
+    public class CampeonatoModel
     {
-        public List<PartidaEntity> Partidas { get; set; }
+        public List<PartidaModel> Partidas { get; set; }
 
         public string Campeao { get; set; }
         public string ViceCampeao { get; set; }

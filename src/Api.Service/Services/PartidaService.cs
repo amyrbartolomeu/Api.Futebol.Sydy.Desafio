@@ -11,20 +11,16 @@ namespace Service.Services
 {
     public class PartidaService : IPartidaService
     {
-        private IRepository<PartidaEntity> _repository;
         private ITimeService _timeService;
 
-        public PartidaService(IRepository<PartidaEntity> repository, ITimeService timeService)
+        public PartidaService(ITimeService timeService)
         {
-            _repository = repository;
             _timeService = timeService;
         }
 
-
-        // implementar criação das partidas (Round-Robin)
-        public async Task<List<PartidaEntity>> CriaPartidas()
+        public async Task<List<PartidaModel>> CriaPartidas()
         {
-            List<PartidaEntity> partidas = new List<PartidaEntity>();
+            List<PartidaModel> partidas = new List<PartidaModel>();
             var todosTimes = (await _timeService.GetAll()).ToList();
 
 
@@ -32,7 +28,7 @@ namespace Service.Services
             {
                 for (int j = i + 1; j < todosTimes.Count; j++)
                 {
-                    var partida = new PartidaEntity();
+                    var partida = new PartidaModel();
                     partida.TimeUm = todosTimes[i];
                     partida.TimeDois = todosTimes[j]; 
                     
@@ -48,30 +44,5 @@ namespace Service.Services
             return (partidas);
         }
 
-
-        public async Task<bool> Delete(Guid id)
-        {
-            return await _repository.DeleteAsync(id);
-        }
-
-        public async Task<PartidaEntity> Get(Guid id)
-        {
-            return await _repository.SelectAsync(id);
-        }
-
-        public async Task<IEnumerable<PartidaEntity>> GetAll()
-        {
-            return await _repository.SelectAsync();
-        }
-
-        public async Task<PartidaEntity> Post(PartidaEntity Partida)
-        {
-            return await _repository.InsertAsync(Partida);
-        }
-
-        public async Task<PartidaEntity> Put(PartidaEntity Partida)
-        {
-            return await _repository.UpdateAsync(Partida);
-        }
     }
 }
